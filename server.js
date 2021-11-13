@@ -41,9 +41,11 @@ io.on('connection', (socket) => {
 
     socket.on('message', async ({ chatMessage, nickname }) => {
         const formatMessage = `${fullDate} - ${nickname}: ${chatMessage}`;
-
-            io.emit('message', formatMessage);
-            await messageModels.createNewMessageDocument(chatMessage, nickname, fullDate);
+                
+            if (chatMessage && nickname) {
+                io.emit('message', formatMessage);
+                await messageModels.createNewMessageDocument(chatMessage, nickname, fullDate);
+            }
     });
 });
 
